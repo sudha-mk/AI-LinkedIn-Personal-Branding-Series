@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI LinkedIn Personal Branding Studio</title>
+
+<style>
+:root {
+  --blue: #0a66c2;
+  --dark: #17345c;
+  --light: #f2f6fc;
+  --border: #dce5f0;
+  --white: #ffffff;
+  --green: #16845b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--light);
+  color: var(--dark);
+}
+
+header {
+  background: linear-gradient(120deg, #084d91, #0a66c2);
+  color: white;
+  padding: 28px 7%;
+}
+
+header h1 {
+  margin: 0 0 10px;
+  font-size: 28px;
+}
+
+header p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+nav {
+  background: white;
+  padding: 12px 7%;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--blue);
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+nav a:hover {
+  background: #e8f2ff;
+}
+
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 28px auto;
+  padding: 0 18px;
+}
+
+.panel, .post-card, .stat-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 22px;
+  box-shadow: 0 4px 15px rgba(20, 50, 90, 0.04);
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 22px;
+}
+
+h3 {
+  margin-bottom: 12px;
+}
+
+.muted {
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 18px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin: 14px 0 7px;
+}
+
+input, textarea, select {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  font: inherit;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: white;
+  color: #17345c;
+}
+
+textarea {
+  min-height: 100px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: 2px solid #a8d0ff;
+  border-color: var(--blue);
+}
+
+button {
+  border: none;
+  border-radius: 8px;
+  background: var(--blue);
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 12px 15px;
+  cursor: pointer;
+  margin: 6px 5px 0 0;
+}
+
+button:hover {
+  background: #084d91;
+}
+
+button.secondary {
+  background: #e7f1ff;
+  color: #084d91;
+}
+
+button.secondary:hover {
+  background: #d3e6ff;
+}
+
+button.danger {
+  background: #fff0f0;
+  color: #a12727;
+}
+
+button.danger:hover {
+  background: #ffe0e0;
+}
+
+button.success {
+  background: #e5f7ee;
+  color: #126b48;
+}
+
+.full-button {
+  width: 100%;
+  margin: 18px 0 0;
+  padding: 14px;
+  font-size: 15px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.stat-card {
+  margin: 0;
+  padding: 17px;
+}
+
+.stat-card strong {
+  display: block;
+  font-size: 27px;
+  color: var(--blue);
+  margin-bottom: 6px;
+}
+
+.stat-card span {
+  font-size: 13px;
+  color: #64748b;
+}
+
+#results {
+  display: none;
+}
+
+#profileResult {
+  display: none;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: #f7faff;
+  padding: 15px;
+  border-radius: 8px;
+  line-height: 1.7;
+  margin-top: 15px;
+}
+
+.post-card {
+  margin-top: 16px;
+}
+
+.post-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.day-label {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.status-label {
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: #fff4d7;
+  color: #805b00;
+}
+
+.status-label.done {
+  background: #e0f7e9;
+  color: #126b48;
+}
+
+.post-card textarea {
+  min-height: 230px;
+  margin-top: 14px;
+}
+
+.post-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.post-actions button {
+  margin-right: 0;
+}
+
+#message {
+  background: #e5f7ee;
+  color: #126b48;
+  padding: 12px;
+  border-radius: 8px;
+  display: none;
+  margin: 14px 0;
+  line-height: 1.5;
+}
+
+.empty {
+  background: white;
+  border: 1px dashed #b8c7d9;
+  padding: 25px;
+  text-align: center;
+  border-radius: 12px;
+  color: #64748b;
+}
+
+footer {
+  text-align: center;
+  padding: 28px 15px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+@media (max-width: 650px) {
+  header {
+    padding: 24px 20px;
+  }
+
+  header h1 {
+    font-size: 23px;
+  }
+
+  nav {
+    padding: 10px 12px;
+  }
+
+  .container {
+    margin-top: 18px;
+    padding: 0 12px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .panel, .post-card {
+    padding: 16px;
+  }
+
+  .post-actions button {
+    flex: 1 1 42%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>AI LinkedIn Branding Studio</h1>
+  <p>Create your professional identity and plan seven days of LinkedIn content.</p>
+</header>
+
+<nav>
+  <a href="#profile">Profile Builder</a>
+  <a href="#series">Post Series</a>
+  <a href="#saved">Saved Drafts</a>
+</nav>
+
+<main class="container">
+
+  <div class="stats">
+    <div class="stat-card">
+      <strong id="totalCount">0</strong>
+      <span>Posts in Current Series</span>
+    </div>
+
+    <div class="stat-card">
+      <strong id="savedCount">0</strong>
+      <span>Saved Posts</span>
+    </div>
+
+    <div class="stat-card">
+      <strong id="completedCount">0</strong>
+      <span>Marked Completed</span>
+    </div>
+  </div>
+
+  <section class="panel" id="profile">
+    <h2>1. Build Your Professional Profile</h2>
+    <p class="muted">
+      Enter your details to create a LinkedIn headline and About section.
+    </p>
+
+    <div class="grid">
+      <div>
+        <label for="name">Full Name</label>
+        <input id="name" placeholder="Enter your name">
+      </div>
+
+      <div>
+        <label for="goal">Career Goal</label>
+        <input id="goal" placeholder="e.g. Software Developer">
+      </div>
+
+      <div>
+        <label for="skills">Skills</label>
+        <input id="skills" placeholder="e.g. HTML, CSS, Python">
+      </div>
+
+      <div>
+        <label for="interest">Area of Interest</label>
+        <input id="interest" placeholder="e.g. Artificial Intelligence">
+      </div>
+    </div>
+
+    <button class="full-button" onclick="generateProfile()">
+      Generate Profile Content
+    </button>
+
+    <div id="profileResult"></div>
+
+    <button id="copyProfile" class="secondary"
+      style="display:none" onclick="copyProfileContent()">
+      Copy Profile Content
+    </button>
+  </section>
+
+  <section class="panel" id="series">
+    <h2>2. Create a Seven-Day LinkedIn Series</h2>
+    <p class="muted">
+      Choose a topic and create seven editable professional post drafts.
+    </p>
+
+    <label for="topic">Series Topic</label>
+    <input id="topic" placeholder="e.g. Learning Artificial Intelligence">
+
+    <label for="audience">Target Audience</label>
+    <select id="audience">
+      <option value="students">College Students</option>
+      <option value="beginners">Beginners</option>
+      <option value="professionals">Working Professionals</option>
+      <option value="developers">Developers</option>
+    </select>
+
+    <label for="tone">Writing Style</label>
+    <select id="tone">
+      <option value="professional">Professional</option>
+      <option value="friendly">Friendly and Conversational</option>
+      <option value="educational">Educational</option>
+      <option value="inspiring">Inspirational</option>
+    </select>
+
+    <button class="full-button" onclick="generateSeries()">
+      Generate Seven-Day Series
+    </button>
+  </section>
+
+  <div id="message" role="status" aria-live="polite"></div>
+
+  <section id="results">
+    <div class="panel">
+      <h2>3. Your Content Plan</h2>
+      <p id="summary" class="muted"></p>
+
+      <label for="searchPosts">Search Your Posts</label>
+      <input id="searchPosts" placeholder="Search titles or post content..."
+        oninput="filterPosts()">
+
+      <button onclick="saveAll()" class="success">
+        Save All Drafts
+      </button>
+
+      <button onclick="copyAll()" class="secondary">
+        Copy All Seven Posts
+      </button>
+
+      <button onclick="exportPosts()" class="secondary">
+        Download as Text
+      </button>
+    </div>
+
+    <div id="posts"></div>
+  </section>
+
+  <section class="panel" id="saved">
+    <h2>4. Saved Drafts</h2>
+    <p class="muted">
+      Your drafts are stored locally in this browser.
+    </p>
+
+    <button onclick="loadDrafts()">Load Saved Drafts</button>
+    <button onclick="deleteDrafts()" class="danger">
+      Delete Saved Drafts
+    </button>
+  </section>
+
+</main>
+
+<footer>
+  AI LinkedIn Personal Branding Series | College Project
+  <br><br>
+  Review all generated content before publishing it.
+</footer>
+
+<script>
+const STORAGE_KEY = "linkedinBrandingStudioV1";
+
+const themes = [
+  {
+    title: "Introduce Your Journey",
+    prompt: topic =>
+      "I am beginning my journey of learning " + topic +
+      ". I want to understand its fundamentals, build practical skills, " +
+      "and share useful lessons along the way."
+  },
+  {
+    title: "Explain a Key Concept",
+    prompt: topic =>
+      "One useful way to begin understanding " + topic +
+      " is to learn its basic concepts first. Building a strong foundation " +
+      "makes it easier to explore more advanced ideas."
+  },
+  {
+    title: "Discuss a Challenge",
+    prompt: topic =>
+      "Learning something new can be challenging. While exploring " +
+      topic + ", breaking complex ideas into smaller steps and practising " +
+      "regularly can make learning more manageable."
+  },
+  {
+    title: "Explore a Practical Application",
+    prompt: topic =>
+      topic + " becomes more interesting when we connect theory with " +
+      "practical examples. Small projects and real-world problems can " +
+      "help us understand how the concepts are applied."
+  },
+  {
+    title: "Share Important Lessons",
+    prompt: topic =>
+      "Three useful learning habits are staying curious, practising " +
+      "consistently, and reflecting on mistakes. These habits can help " +
+      "beginners improve their understanding of " + topic + "."
+  },
+  {
+    title: "Look at Future Opportunities",
+    prompt: topic =>
+      "Exploring " + topic +
+      " can introduce us to new ideas, tools, and career possibilities. " +
+      "Continued learning helps us adapt as technology and professional " +
+      "requirements evolve."
+  },
+  {
+    title: "Reflect on the Week",
+    prompt: topic =>
+      "This seven-day learning series has been an opportunity to explore " +
+      topic + ". The most important next step is to keep practising, " +
+      "ask questions, and apply what I learn."
+  }
+];
+
+let generatedPosts = [];
+let profileContent = "";
+
+function showMessage(message) {
+  const box = document.getElementById("message");
+  box.textContent = message;
+  box.style.display = "block";
+}
+
+function updateStats() {
+  document.getElementById("totalCount").textContent =
+    generatedPosts.length;
+
+  document.getElementById("completedCount").textContent =
+    generatedPosts.filter(post => post.completed).length;
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    document.getElementById("savedCount").textContent =
+      Array.isArray(saved) ? saved.length : 0;
+  } catch (error) {
+    document.getElementById("savedCount").textContent = "0";
+  }
+}
+
+function generateProfile() {
+  const name = document.getElementById("name").value.trim();
+  const goal = document.getElementById("goal").value.trim();
+  const skills = document.getElementById("skills").value.trim();
+  const interest = document.getElementById("interest").value.trim();
+
+  if (!name || !goal || !skills || !interest) {
+    showMessage("Please complete all profile fields first.");
+    return;
+  }
+
+  profileContent =
+    "LINKEDIN HEADLINE\n\n" +
+    name + " | Aspiring " + goal + " | Skills: " + skills +
+    "\n\nABOUT SECTION\n\n" +
+    "Hello! I am " + name + ", an aspiring " + goal +
+    ". I am developing my skills in " + skills +
+    " and exploring " + interest +
+    ". I enjoy learning new concepts, working on practical projects, " +
+    "and improving my professional knowledge. I look forward to " +
+    "connecting with others and sharing my learning journey.";
+
+  const result = document.getElementById("profileResult");
+  result.textContent = profileContent;
+  result.style.display = "block";
+  document.getElementById("copyProfile").style.display = "inline-block";
+
+  showMessage("Your profile content has been generated.");
+}
+
+function copyProfileContent() {
+  copyText(profileContent);
+}
+
+function generateSeries() {
+  const name = document.getElementById("name").value.trim();
+  const goal = document.getElementById("goal").value.trim();
+  const skills = document.getElementById("skills").value.trim();
+  const topic = document.getElementById("topic").value.trim();
+  const audience = document.getElementById("audience").value;
+  const tone = document.getElementById("tone").value;
+
+  if (!name || !goal || !skills || !topic) {
+    showMessage(
+      "Please enter your name, career goal, skills, and series topic."
+    );
+    return;
+  }
+
+  generatedPosts = themes.map((theme, index) => {
+    let opening = "Hello LinkedIn community!";
+
+    if (tone === "friendly") {
+      opening = "Hi everyone! Here is something I am learning.";
+    } else if (tone === "educational") {
+      opening = "Learning note: let's explore an important idea.";
+    } else if (tone === "inspiring") {
+      opening = "Every new skill starts with a willingness to learn.";
+    }
+
+    let audienceLine = "I am sharing this with fellow learners.";
+
+    if (audience === "students") {
+      audienceLine = "As students, we can grow by learning together.";
+    } else if (audience === "beginners") {
+      audienceLine = "This is a useful starting point for beginners.";
+    } else if (audience === "professionals") {
+      audienceLine = "Continuous learning helps professionals stay curious.";
+    } else if (audience === "developers") {
+      audienceLine = "Developers can benefit from practising these concepts.";
+    }
+
+    const topicTag = topic.replace(/[^a-zA-Z0-9]/g, "");
+
+    return {
+      day: index + 1,
+      title: theme.title,
+      content:
+        opening + "\n\n" +
+        "I am " + name + ", an aspiring " + goal + ".\n\n" +
+        "Day " + (index + 1) + " of my LinkedIn learning series: " +
+        topic + ".\n\n" +
+        theme.prompt(topic) + "\n\n" +
+        "I am building my knowledge in " + skills +
+        " and applying what I learn step by step.\n\n" +
+        audienceLine + "\n\n" +
+        "What would you add to this discussion?\n\n" +
+        "#LearningJourney #" + topicTag +
+        " #ProfessionalGrowth",
+      completed: false
+    };
+  });
+
+  document.getElementById("summary").textContent =
+    "Seven editable draft posts about " + topic +
+    ", designed for " + audience +
+    " with a " + tone + " writing style.";
+
+  document.getElementById("results").style.display = "block";
+
+  renderPosts();
+  updateStats();
+
+  showMessage("Your seven-day series is ready to edit.");
+  document.getElementById("results").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+
+function renderPosts() {
+  const container = document.getElementById("posts");
+  container.replaceChildren();
+
+  if (!generatedPosts.length) {
+    container.innerHTML =
+      '<div class="empty">No posts yet. Generate a series to begin.</div>';
+    return;
+  }
+
+  generatedPosts.forEach((post, index) => {
+    const card = document.createElement("article");
+    card.className = "post-card";
+    card.dataset.index = index;
+
+    const top = document.createElement("div");
+    top.className = "post-top";
+
+    const day = document.createElement("span");
+    day.className = "day-label";
+    day.textContent = "DAY " + post.day;
+
+    const status = document.createElement("span");
+    status.className = "status-label" + (post.completed ? " done" : "");
+    status.textContent = post.completed ? "Completed" : "Draft";
+
+    top.append(day, status);
+
+    const title = document.createElement("h3");
+    title.textContent = post.title;
+
+    const editor = document.createElement("textarea");
+    editor.value = post.content;
+    editor.setAttribute("aria-label", "Edit Day " + post.day + " post");
+
+    editor.addEventListener("input", () => {
+      generatedPosts[index].content = editor.value;
+      showMessage("Day " + post.day + " edited. Save to keep your changes.");
+    });
+
+    const actions = document.createElement("div");
+    actions.className = "post-actions";
+
+    const saveButton = document.createElement("button");
+    saveButton.className = "success";
+    saveButton.textContent = "Save Draft";
+    saveButton.addEventListener("click", () => saveAll());
+
+    const copyButton = document.createElement("button");
+    copyButton.className = "secondary";
+    copyButton.textContent = "Copy Post";
+    copyButton.addEventListener("click", () => copyText(editor.value));
+
+    const completeButton = document.createElement("button");
+    completeButton.className = "secondary";
+    completeButton.textContent = post.completed
+      ? "Mark as Draft"
+      : "Mark Completed";
+
+    completeButton.addEventListener("click", () => {
+      generatedPosts[index].completed = !generatedPosts[index].completed;
+      renderPosts();
+      updateStats();
+      showMessage("Day " + post.day + " status updated. Save to keep it.");
+    });
+
+    actions.append(saveButton, copyButton, completeButton);
+    card.append(top, title, editor, actions);
+    container.appendChild(card);
+  });
+
+  filterPosts();
+}
+
+function saveAll() {
+  if (!generatedPosts.length) {
+    showMessage("Generate a series before saving drafts.");
+    return;
+  }
+
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(generatedPosts));
+    updateStats();
+    showMessage("All seven drafts and their statuses have been saved.");
+  } catch (error) {
+    showMessage("Unable to save. Browser storage may be unavailable.");
+  }
+}
+
+function loadDrafts() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+
+    if (!raw) {
+      showMessage("No saved drafts were found in this browser.");
+      return;
+    }
+
+    const saved = JSON.parse(raw);
+
+    if (
+      !Array.isArray(saved) ||
+      saved.length !== 7 ||
+      !saved.every(post =>
+        Number.isInteger(post.day) &&
+        typeof post.title === "string" &&
+        typeof post.content === "string"
+      )
+    ) {
+      showMessage("Saved draft data is invalid.");
+      return;
+    }
+
+    generatedPosts = saved.map(post => ({
+      day: post.day,
+      title: post.title,
+      content: post.content,
+      completed: Boolean(post.completed)
+    }));
+
+    document.getElementById("summary").textContent =
+      "Your saved seven-day LinkedIn series.";
+
+    document.getElementById("results").style.display = "block";
+    renderPosts();
+    updateStats();
+    showMessage("Your saved drafts have been loaded.");
+    document.getElementById("results").scrollIntoView({
+      behavior: "smooth"
+    });
+  } catch (error) {
+    showMessage("Unable to read saved drafts.");
+  }
+}
+
+function deleteDrafts() {
+  const confirmed = confirm(
+    "Delete all saved drafts from this browser?"
+  );
+
+  if (!confirmed) return;
+
+  localStorage.removeItem(STORAGE_KEY);
+  updateStats();
+  showMessage("Saved drafts deleted.");
+}
+
+async function copyText(text) {
+  try {
+    if (!navigator.clipboard || !window.isSecureContext) {
+      throw new Error("Clipboard unavailable");
+    }
+
+    await navigator.clipboard.writeText(text);
+    showMessage("Content copied successfully.");
+  } catch (error) {
+    showMessage(
+      "Copy access is unavailable. Select the text and copy it manually."
+    );
+  }
+}
+
+function copyAll() {
+  if (!generatedPosts.length) {
+    showMessage("Generate a series first.");
+    return;
+  }
+
+  const content = generatedPosts.map(post =>
+    "DAY " + post.day + ": " + post.title + "\n\n" +
+    post.content
+  ).join("\n\n------------------------------\n\n");
+
+  copyText(content);
+}
+
+function exportPosts() {
+  if (!generatedPosts.length) {
+    showMessage("Generate a series before downloading.");
+    return;
+  }
+
+  const content = generatedPosts.map(post =>
+    "DAY " + post.day + ": " + post.title + "\n\n" +
+    post.content
+  ).join("\n\n------------------------------\n\n");
+
+  const blob = new Blob([content], {
+    type: "text/plain;charset=utf-8"
+  });
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "linkedin-seven-day-series.txt";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+
+  showMessage("Your text file download has been requested.");
+}
+
+function filterPosts() {
+  const input = document.getElementById("searchPosts");
+  if (!input) return;
+
+  const query = input.value.toLowerCase().trim();
+
+  document.querySelectorAll(".post-card").forEach(card => {
+    const index = Number(card.dataset.index);
+    const post = generatedPosts[index];
+
+    if (!post) return;
+
+    const matches =
+      post.title.toLowerCase().includes(query) ||
+      post.content.toLowerCase().includes(query);
+
+    card.style.display = matches ? "block" : "none";
+  });
+}
+
+updateStats();
+</script>
+
+</body>
+</html>
